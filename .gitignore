@@ -1,0 +1,6 @@
+Temp/
+Game/
+build/
+**/Debug/
+Debug/
+.vs/
