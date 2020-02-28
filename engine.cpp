@@ -29,29 +29,31 @@ loadBlockData (
         loadBlockData will read the p_gameFile and update the objects in
         p_objects with the appropriate data.
     */
-	int row, column, blockPosition;
-	ifstream file;
-	for (int i = 0; i < (p_gui.numRows * p_gui.numColumns); i++) {
-		file >> blockPosition;
-		p_objects[i].type = (Type)blockPosition;
-	}
-	file.close();
-	ifstream file2;
-	file2.open(p_gameFile);
-	
-	int array [p_gui.numRows][p_gui.numColumns] ;
-	for(row = 0; row < p_gui.numRows; row++){
-		for (column = 0; column < p_gui.numColumns; column++) {
-			file2 >> array[row][column];
-			p_objects->position.x = row;
-			p_objects->position.y = column;
-			p_objects->dimensions.height = row;
-			p_objects->dimensions.width = column;
-		}
-	}
-	file2.close();
-	
-    return 0; // placeholder
+    int objectsRead = 0;
+    int objectData = 0;
+    int index = 1;
+    ifstream fin;
+    fin.open(p_gameFile);
+    while (!fin.eof()) {
+        cin >> objectData;
+        p_objects[index].type = (Type)objectData;
+        index++;
+        objectsRead++;
+    }
+    fin.close();
+    int i = 1;
+    for (int row = 0; row < 14; row++) {
+        for (int col = 0; col < 21; col++) {
+            Dimensions dimension{ p_gui.getObjectDimensions(p_objects[i]) };
+            p_objects[i].position.x = col * dimension.width;
+            p_objects[i].position.y = row * dimension.height;
+            p_objects[i].dimensions.width = dimension.width;
+            p_objects[i].dimensions.height = dimension.height;
+            i++;
+        }
+    }
+    
+    return objectsRead; // placeholder
 }
 
 void
@@ -75,6 +77,19 @@ randomPlayerData (
                 The player cannot be in the air for instance
                 The player cannot be underground
     */
+    random_device rdev; //seed
+    default_random_engine e(rdev()); //engine
+
+    std::uniform_int_distribution<int> s(0, p_gui.getNumPlayerSprites() - 1);
+    int randomValueSprite = s(e); //distribution(engine)
+    p_objects[p_numObjects - 1].spriteID = randomValueSprite;
+
+    int screenWidth = p_gui.screenDimensions.width;
+    std::uniform_int_distribution<int> d(0, screenWidth - p_gui.getObjectDimensions(p_objects[p_numObjects - 1].dimensions.width)); 
+    int randomValue = d(e); //distribution(engine)
+    p_objects[p_numObjects - 1].position.x = randomValue;
+    //p_objects[p_numObjects - 1].position.y = ; 
+    
 }
 
 int
