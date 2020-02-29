@@ -85,10 +85,10 @@ randomPlayerData (
     int randomValueSprite = s(e); //distribution(engine)
     p_objects[0].spriteID = randomValueSprite;
 
-    int screenWidth = p_gui.screenDimensions.width;
-    uniform_int_distribution<int> d(0, screenWidth - p_gui.getObjectDimensions(p_objects[0].dimensions.width));
-    int randomValue = d(e); //distribution(engine)
-    p_objects[p_numObjects - 1].position.x = randomValue;
+    //int screenWidth = p_gui.screenDimensions.width;
+    //uniform_int_distribution<int> d(0, screenWidth - p_gui.getObjectDimensions(p_objects[0].dimensions.width));
+    //int randomValue = d(e); //distribution(engine)
+    //p_objects[p_numObjects - 1].position.x = randomValue;
     //p_objects[p_numObjects - 1].position.y = 
 }
 
