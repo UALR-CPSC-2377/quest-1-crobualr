@@ -35,8 +35,9 @@ loadBlockData (
     ifstream fin;
     fin.open(p_gameFile);
     while (!fin.eof()) {
-        cin >> objectData;
+        fin >> objectData;
         p_objects[index].type = (Type)objectData;
+        cout << objectData << endl;;
         index++;
         objectsRead++;
     }
@@ -52,7 +53,7 @@ loadBlockData (
             i++;
         }
     }
-    
+    cout << "objects read: " << objectsRead;
     return objectsRead; // placeholder
 }
 
@@ -80,16 +81,15 @@ randomPlayerData (
     random_device rdev; //seed
     default_random_engine e(rdev()); //engine
 
-    std::uniform_int_distribution<int> s(0, p_gui.getNumPlayerSprites() - 1);
+    uniform_int_distribution<int> s(0, p_gui.getNumPlayerSprites() - 1);
     int randomValueSprite = s(e); //distribution(engine)
-    p_objects[p_numObjects - 1].spriteID = randomValueSprite;
+    p_objects[0].spriteID = randomValueSprite;
 
     int screenWidth = p_gui.screenDimensions.width;
-    std::uniform_int_distribution<int> d(0, screenWidth - p_gui.getObjectDimensions(p_objects[p_numObjects - 1].dimensions.width)); 
+    uniform_int_distribution<int> d(0, screenWidth - p_gui.getObjectDimensions(p_objects[0].dimensions.width));
     int randomValue = d(e); //distribution(engine)
     p_objects[p_numObjects - 1].position.x = randomValue;
-    //p_objects[p_numObjects - 1].position.y = ; 
-    
+    //p_objects[p_numObjects - 1].position.y = 
 }
 
 int
