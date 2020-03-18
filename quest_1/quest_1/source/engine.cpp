@@ -8,7 +8,7 @@
 // local
 #include "Object.h"
 #include "GUI.h"
-
+using namespace std;
 int
 loadBlockData (
     const std::string& p_gameFile,
@@ -29,8 +29,32 @@ loadBlockData (
         loadBlockData will read the p_gameFile and update the objects in
         p_objects with the appropriate data.
     */
-
-    return 0; // placeholder
+    int objectsRead = 0;
+    int objectData = 0;
+    int index = 0;
+    ifstream fin;
+    fin.open(p_gameFile);
+    while (!fin.eof()) {
+        fin >> objectData;
+        p_objects[index].type = (Type)objectData;
+        cout << objectData << endl;
+        index++;
+        objectsRead++;
+    }
+    fin.close();
+    int i = 0;
+    for (int row = 0; row < p_gui.numRows; row++) {
+        for (int col = 0; col < p_gui.numColumns; col++) {
+            Dimensions dimension{ p_gui.getObjectDimensions(p_objects[i]) };
+            p_objects[i].position.x = col * dimension.width;
+            p_objects[i].position.y = row * dimension.height;
+            p_objects[i].dimensions.width = dimension.width;
+            p_objects[i].dimensions.height = dimension.height;
+            i++;
+        }
+    }
+    cout << "objects read: " << objectsRead;
+    return objectsRead; // placeholder
 }
 
 void
@@ -54,6 +78,18 @@ randomPlayerData (
                 The player cannot be in the air for instance
                 The player cannot be underground
     */
+    random_device rdev; //seed
+    default_random_engine e(rdev()); //engine
+
+    //uniform_int_distribution<int> s(0, p_gui.getNumPlayerSprites() - 1);
+    //int randomValueSprite = s(e); //distribution(engine)
+    //p_objects[0].spriteID = randomValueSprite;
+
+    //int screenWidth = p_gui.screenDimensions.width;
+    //uniform_int_distribution<int> d(0, screenWidth - p_gui.getObjectDimensions(p_objects[0].dimensions.width));
+    //int randomValue = d(e); //distribution(engine)
+    //p_objects[p_numObjects - 1].position.x = randomValue;
+    //p_objects[p_numObjects - 1].position.y = 
 }
 
 int
